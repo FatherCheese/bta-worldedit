@@ -14,6 +14,10 @@ public class WandUseEvent implements PlaceEvent {
     public void onEvent(EntityPlayerMP entityPlayerMP, Packet15Place packet15Place, MinecraftServer minecraftServer) {
         ItemStack heldItem = entityPlayerMP.getCurrentEquippedItem();
 
+        if (packet15Place.xPosition == -1 && packet15Place.yPosition == 255 && packet15Place.zPosition == -1 && packet15Place.direction == 255 && packet15Place.heightPlaced == 0) {
+            return;
+        }
+
         if (heldItem == null) {
             return;
         }
@@ -22,16 +26,12 @@ public class WandUseEvent implements PlaceEvent {
             return;
         }
 
-        if (packet15Place.xPosition == -1 && packet15Place.yPosition == 255 && packet15Place.zPosition == -1 && packet15Place.direction == 255 && packet15Place.heightPlaced == 0) {
-            return;
-        }
-
         int x = packet15Place.xPosition;
         int y = packet15Place.yPosition;
         int z = packet15Place.zPosition;
 
-        entityPlayerMP.mcServer.configManager.sendChatMessageToPlayer(entityPlayerMP.username, "Set secondary position at [" + x + " " + y + " " + z + "]");
-        WandPlayerData.secondaryPositions.put(entityPlayerMP.username, new double[]{x, y, z});
+        minecraftServer.configManager.sendChatMessageToPlayer(entityPlayerMP.username, "Set secondary position at [" + x + " " + y + " " + z + "]");
+        WandPlayerData.secondaryPositions.put(entityPlayerMP.username, new int[]{x, y, z});
     }
 
     @Override

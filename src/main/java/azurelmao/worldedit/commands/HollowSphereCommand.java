@@ -17,16 +17,16 @@ public class HollowSphereCommand implements com.bta.util.CommandHandler {
             @Override
             public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] args) {
                 if (args.length == 4) {
-                    double[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
+                    int[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
 
                     if (primaryPosition == null) {
                         commandSender.sendMessage("Primary position isn't set!");
                         return true;
                     }
 
-                    int originX = (int) primaryPosition[0];
-                    int originY = (int) primaryPosition[1];
-                    int originZ = (int) primaryPosition[2];
+                    int originX = primaryPosition[0];
+                    int originY = primaryPosition[1];
+                    int originZ = primaryPosition[2];
 
                     String[] id1 = args[0].split(":");
                     int meta1 = 0;
@@ -145,7 +145,6 @@ public class HollowSphereCommand implements com.bta.util.CommandHandler {
             @Override
             public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
                 commandSender.sendMessage("//hsphere <block> <radius> <raise?> <overwrite?>");
-                commandSender.sendMessage("*  Arguments:");
                 commandSender.sendMessage("*  <block> - block to place");
                 commandSender.sendMessage("*  <radius> - sphere radius");
                 commandSender.sendMessage("*  <raise?> - whether to shift the sphere up");

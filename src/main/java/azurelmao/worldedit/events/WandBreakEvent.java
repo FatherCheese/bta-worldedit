@@ -34,7 +34,7 @@ public class WandBreakEvent implements BlockDigEvent {
         entityPlayerMP.worldObj.notifyBlocksOfNeighborChange(x, y, z, id);
 
         minecraftServer.configManager.sendChatMessageToPlayer(entityPlayerMP.username, "Set primary position at [" + x + " " + y + " " + z + "]");
-        WandPlayerData.primaryPositions.put(entityPlayerMP.username, new double[]{x, y, z});
+        WandPlayerData.primaryPositions.put(entityPlayerMP.username, new int[]{x, y, z});
     }
 
     @Override

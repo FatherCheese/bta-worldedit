@@ -3,7 +3,7 @@ plugins {
 }
 
 group('azurelmao.worldedit')
-version('1.0')
+version('1.1')
 
 repositories {
     mavenCentral()
@@ -22,11 +22,11 @@ test {
 }
 jar {
     manifest {
-        attributes "Manifest-Version": 1.0
+        attributes "Manifest-Version": 1.1
         attributes "Created-By": "azurelmao"
         attributes "Plugin-Class": "azurelmao.worldedit.WorldEdit"
         attributes "Plugin-Dependencies": ""
         attributes "Plugin-Id": "worldedit"
-        attributes "Plugin-Version": "1.0.0"
+        attributes "Plugin-Version": "1.1"
     }
 }

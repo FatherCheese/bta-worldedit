@@ -17,20 +17,20 @@ public class SetCommand implements com.bta.util.CommandHandler {
             @Override
             public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] args) {
                 if (args.length == 1) {
-                    double[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
-                    double[] secondPosition = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
+                    int[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
+                    int[] secondPosition = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
 
                     if (primaryPosition == null || secondPosition == null) {
                         commandSender.sendMessage("Positions aren't set!");
                         return false;
                     }
 
-                    int minX = (int) primaryPosition[0];
-                    int minY = (int) primaryPosition[1];
-                    int minZ = (int) primaryPosition[2];
-                    int maxX = (int) secondPosition[0];
-                    int maxY = (int) secondPosition[1];
-                    int maxZ = (int) secondPosition[2];
+                    int minX = primaryPosition[0];
+                    int minY = primaryPosition[1];
+                    int minZ = primaryPosition[2];
+                    int maxX = secondPosition[0];
+                    int maxY = secondPosition[1];
+                    int maxZ = secondPosition[2];
 
                     int temp;
                     if (minX > maxX) {
@@ -100,7 +100,6 @@ public class SetCommand implements com.bta.util.CommandHandler {
             @Override
             public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
                 commandSender.sendMessage("//set <block>");
-                commandSender.sendMessage("*  Arguments:");
                 commandSender.sendMessage("*  <block> - block to place");
             }
         };
