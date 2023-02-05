@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group('azurelmao.worldedit')
+version('1.0')
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.8.1')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.8.1')
+    implementation(files("libs/bta-server.jar"))
+    implementation('org.pf4j:pf4j:3.7.0')
+    annotationProcessor('org.pf4j:pf4j:3.7.0')
+}
+
+test {
+    useJUnitPlatform()
+}
+jar {
+    manifest {
+        attributes "Manifest-Version": 1.0
+        attributes "Created-By": "azurelmao"
+        attributes "Plugin-Class": "azurelmao.worldedit.WorldEdit"
+        attributes "Plugin-Dependencies": ""
+        attributes "Plugin-Id": "worldedit"
+        attributes "Plugin-Version": "1.0.0"
+    }
+}
