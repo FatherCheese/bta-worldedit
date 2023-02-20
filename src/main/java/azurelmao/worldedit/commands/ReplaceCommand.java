@@ -22,7 +22,7 @@ public class ReplaceCommand implements com.bta.util.CommandHandler {
 
                     if (primaryPosition == null || secondPosition == null) {
                         commandSender.sendMessage("Positions aren't set!");
-                        return false;
+                        return true;
                     }
 
                     int minX = primaryPosition[0];
@@ -51,20 +51,45 @@ public class ReplaceCommand implements com.bta.util.CommandHandler {
                         maxZ = temp;
                     }
 
-                    String[] id1 = args[0].split(":");
+                    String[] blockName1 = args[0].split(":");
                     int meta1 = 0;
-                    if (id1.length >= 2) {
-                        meta1 = Integer.parseInt(id1[1]);
+                    if (blockName1.length >= 2) {
+                        meta1 = Integer.parseInt(blockName1[1]);
                     }
 
-                    String[] id2 = args[1].split(":");
+                    int id1;
+                    if (blockName1[0].equals("0") || blockName1[0].equals("air") || blockName1[0].equals("tile.air")) {
+                        id1 = 0;
+                    } else {
+                        Block block = SetBlockCommand.getBlock(blockName1[0], meta1);
+
+                        if (block == null) {
+                            commandSender.sendMessage("Block does not exist!");
+                            return true;
+                        }
+
+                        id1 = block.blockID;
+                    }
+
+                    String[] blockName2 = args[0].split(":");
                     int meta2 = 0;
-                    if (id2.length >= 2) {
-                        meta2 = Integer.parseInt(id2[1]);
+                    if (blockName2.length >= 2) {
+                        meta2 = Integer.parseInt(blockName2[1]);
                     }
 
-                    Block block1 = SetBlockCommand.getBlock(id1[0], meta1);
-                    Block block2 = SetBlockCommand.getBlock(id2[0], meta2);
+                    int id2;
+                    if (blockName2[0].equals("0") || blockName2[0].equals("air") || blockName2[0].equals("tile.air")) {
+                        id2 = 0;
+                    } else {
+                        Block block = SetBlockCommand.getBlock(blockName2[0], meta1);
+
+                        if (block == null) {
+                            commandSender.sendMessage("Block does not exist!");
+                            return true;
+                        }
+
+                        id2 = block.blockID;
+                    }
 
                     WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
 
@@ -90,9 +115,9 @@ public class ReplaceCommand implements com.bta.util.CommandHandler {
                                 int id = commandSender.getPlayer().worldObj.getBlockId(x, y, z);
                                 int meta = commandSender.getPlayer().worldObj.getBlockMetadata(x, y, z);
 
-                                if (block1.blockID == id && meta1 == meta) {
-                                    wandClipboard.putBlock(x, y, z, block2.blockID, meta2);
-                                    commandSender.getPlayer().worldObj.setBlockAndMetadataWithNotify(x, y, z, block2.blockID, meta2);
+                                if (id1 == id && meta1 == meta) {
+                                    wandClipboard.putBlock(x, y, z, id2, meta2);
+                                    commandSender.getPlayer().worldObj.setBlockAndMetadataWithNotify(x, y, z, id2, meta2);
                                 }
                             }
                         }

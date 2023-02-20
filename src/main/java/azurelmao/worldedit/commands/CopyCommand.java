@@ -2,21 +2,19 @@ package azurelmao.worldedit.commands;
 
 import azurelmao.worldedit.WandClipboard;
 import azurelmao.worldedit.WandPlayerData;
-import net.minecraft.src.Block;
 import net.minecraft.src.command.Command;
 import net.minecraft.src.command.CommandHandler;
 import net.minecraft.src.command.CommandSender;
-import net.minecraft.src.command.commands.SetBlockCommand;
 import org.pf4j.Extension;
 
 @Extension
-public class SetCommand implements com.bta.util.CommandHandler {
+public class CopyCommand implements com.bta.util.CommandHandler {
     @Override
     public Command command() {
-        return new Command("/set") {
+        return new Command("/copy") {
             @Override
             public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] args) {
-                if (args.length == 1) {
+                if (args.length == 0) {
                     int[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
                     int[] secondPosition = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
 
@@ -51,49 +49,21 @@ public class SetCommand implements com.bta.util.CommandHandler {
                         maxZ = temp;
                     }
 
-                    String[] blockName = args[0].split(":");
-                    int meta1 = 0;
-                    if (blockName.length >= 2) {
-                        meta1 = Integer.parseInt(blockName[1]);
+                    WandClipboard copyClipboard = WandPlayerData.copyClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
+
+                    if (copyClipboard.page == -1) {
+                        copyClipboard.createNewPage();
                     }
 
-                    int id1;
-                    if (blockName[0].equals("0") || blockName[0].equals("air") || blockName[0].equals("tile.air")) {
-                        id1 = 0;
-                    } else {
-                        Block block = SetBlockCommand.getBlock(blockName[0], meta1);
-
-                        if (block == null) {
-                            commandSender.sendMessage("Block does not exist!");
-                            return true;
-                        }
-
-                        id1 = block.blockID;
-                    }
-
-                    WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
-
-                    if (wandClipboard.page == -1) {
-                        wandClipboard.createNewPage();
-                    }
+                    copyClipboard.getCurrentPage().clear();
 
                     for(int x = minX; x <= maxX; ++x) {
                         for(int y = minY; y <= maxY; ++y) {
                             for(int z = minZ; z <= maxZ; ++z) {
                                 int id = commandSender.getPlayer().worldObj.getBlockId(x, y, z);
                                 int meta = commandSender.getPlayer().worldObj.getBlockMetadata(x, y, z);
-                                wandClipboard.putBlock(x, y, z, id, meta);
-                            }
-                        }
-                    }
 
-                    wandClipboard.createNewPage();
-
-                    for(int x = minX; x <= maxX; ++x) {
-                        for(int y = minY; y <= maxY; ++y) {
-                            for(int z = minZ; z <= maxZ; ++z) {
-                                wandClipboard.putBlock(x, y, z, id1, meta1);
-                                commandSender.getPlayer().worldObj.setBlockAndMetadataWithNotify(x, y, z, id1, meta1);
+                                copyClipboard.putBlock(x - primaryPosition[0], y - primaryPosition[1], z - primaryPosition[2], id, meta);
                             }
                         }
                     }
@@ -112,8 +82,7 @@ public class SetCommand implements com.bta.util.CommandHandler {
 
             @Override
             public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
-                commandSender.sendMessage("//set <block>");
-                commandSender.sendMessage("*  <block> - block to place");
+                commandSender.sendMessage("//copy");
             }
         };
     }

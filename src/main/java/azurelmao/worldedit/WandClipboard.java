@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WandClipboard {
-    public int page = -1;
-
     public ArrayList<HashMap<ChunkPosition, int[]>> history = new ArrayList<>();
+    public int page = -1;
 
     public void createNewPage() {
         if (page < history.size()-1) {
@@ -29,18 +28,10 @@ public class WandClipboard {
         this.getCurrentPage().put(new ChunkPosition(x, y, z), new int[]{id, meta});
     }
 
-    public void lastPage() {
-        page = history.size()-1;
-    }
-
-    public void firstPage() {
-        page = 0;
-    }
-
     public boolean nextPage() {
         page += 1;
         if (page >= history.size()) {
-            this.lastPage();
+            page = history.size()-1;
             return true;
         }
         return false;
@@ -49,7 +40,7 @@ public class WandClipboard {
     public boolean previousPage() {
         page -= 1;
         if (page < 0) {
-            this.firstPage();
+            page = 0;
             return true;
         }
         return false;

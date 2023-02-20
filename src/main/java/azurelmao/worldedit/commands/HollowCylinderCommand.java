@@ -28,12 +28,25 @@ public class HollowCylinderCommand implements com.bta.util.CommandHandler {
                     int originY = primaryPosition[1];
                     int originZ = primaryPosition[2];
 
-                    String[] id1 = args[0].split(":");
+                    String[] blockName = args[0].split(":");
                     int meta1 = 0;
-                    if (id1.length >= 2) {
-                        meta1 = Integer.parseInt(id1[1]);
+                    if (blockName.length >= 2) {
+                        meta1 = Integer.parseInt(blockName[1]);
                     }
-                    Block block = SetBlockCommand.getBlock(id1[0], meta1);
+
+                    int id1;
+                    if (blockName[0].equals("0") || blockName[0].equals("air") || blockName[0].equals("tile.air")) {
+                        id1 = 0;
+                    } else {
+                        Block block = SetBlockCommand.getBlock(blockName[0], meta1);
+
+                        if (block == null) {
+                            commandSender.sendMessage("Block does not exist!");
+                            return true;
+                        }
+
+                        id1 = block.blockID;
+                    }
 
                     double radius;
                     try {
@@ -107,8 +120,8 @@ public class HollowCylinderCommand implements com.bta.util.CommandHandler {
                                     }
 
                                     if (isExposed) {
-                                        wandClipboard.putBlock(x+originX, y+originY, z+originZ, block.blockID, meta1);
-                                        commandSender.getPlayer().worldObj.setBlockAndMetadataWithNotify(x+originX, y+originY, z+originZ, block.blockID, meta1);
+                                        wandClipboard.putBlock(x+originX, y+originY, z+originZ, id1, meta1);
+                                        commandSender.getPlayer().worldObj.setBlockAndMetadataWithNotify(x+originX, y+originY, z+originZ, id1, meta1);
                                     } else if (overwrite) {
                                         wandClipboard.putBlock(x+originX, y+originY, z+originZ, 0, 0);
                                         commandSender.getPlayer().worldObj.setBlockAndMetadataWithNotify(x+originX, y+originY, z+originZ, 0, 0);
