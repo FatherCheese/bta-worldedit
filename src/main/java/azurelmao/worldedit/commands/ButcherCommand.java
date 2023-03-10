@@ -16,41 +16,47 @@ public class ButcherCommand implements com.bta.util.CommandHandler {
             public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] args) {
                 if (args.length == 1) {
                     switch (args[0]) {
-                        case "all" -> {
+                        case "all": {
                             for (Entity entity : commandSender.getPlayer().worldObj.loadedEntityList) {
                                 if (entity != commandSender.getPlayer()) {
                                     entity.setEntityDead();
                                 }
                             }
+                            break;
                         }
-                        case "player" -> {
+                        case "player": {
                             for (EntityPlayerMP player : MinecraftServer.getInstance().configManager.playerEntities) {
                                 if (player != commandSender.getPlayer()) {
                                     player.killPlayer();
                                 }
                             }
+                            break;
                         }
-                        case "hostile" -> {
+                        case "hostile": {
                             for (Entity entity : commandSender.getPlayer().worldObj.loadedEntityList) {
                                 if (entity instanceof EntityMob) {
                                     entity.setEntityDead();
                                 }
                             }
+                            break;
                         }
-                        case "passive" -> {
+                        case "passive": {
                             for (Entity entity : commandSender.getPlayer().worldObj.loadedEntityList) {
                                 if (entity instanceof EntityAnimal) {
                                     entity.setEntityDead();
                                 }
                             }
+                            break;
                         }
-                        case "item" -> {
+                        case "item": {
                             for (Entity entity : commandSender.getPlayer().worldObj.loadedEntityList) {
                                 if (entity instanceof EntityItem) {
                                     entity.setEntityDead();
                                 }
                             }
+                            break;
                         }
+                        default: break;
                     }
 
                     return true;

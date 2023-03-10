@@ -68,13 +68,27 @@ public class StackCommand implements com.bta.util.CommandHandler {
                     int offsetZ = 0;
                     Direction direction = Direction.getDirection(commandSender.getPlayer());
                     switch (direction) {
-                        case UP -> offsetY = maxY-minY+1;
-                        case DOWN -> offsetY = -(maxY-minY+1);
-                        case EAST -> offsetX = -(maxX-minX+1);
-                        case WEST -> offsetX = maxX-minX+1;
-                        case SOUTH -> offsetZ = -(maxZ-minZ+1);
-                        case NORTH -> offsetZ = maxZ-minZ+1;
+                        case UP:
+                            offsetY = maxY-minY+1;
+                            break;
+                        case DOWN:
+                            offsetY = -(maxY-minY+1);
+                            break;
+                        case EAST:
+                            offsetX = -(maxX-minX+1);
+                            break;
+                        case WEST:
+                            offsetX = maxX-minX+1;
+                            break;
+                        case SOUTH:
+                            offsetZ = -(maxZ-minZ+1);
+                            break;
+                        case NORTH:
+                            offsetZ = maxZ-minZ+1;
+                            break;
+                        default: break;
                     }
+
 
                     HashMap<ChunkPosition, int[]> normalBlocks = new HashMap<>();
                     HashMap<ChunkPosition, int[]> notNormalBlocks = new HashMap<>();
