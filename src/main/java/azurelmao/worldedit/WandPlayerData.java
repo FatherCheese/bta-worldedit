@@ -1,10 +1,11 @@
 package azurelmao.worldedit;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class WandPlayerData {
-    public static HashMap<String, int[]> primaryPositions = new HashMap<>();
-    public static HashMap<String, int[]> secondaryPositions = new HashMap<>();
-    public static HashMap<String, WandClipboard> wandClipboards = new HashMap<>();
-    public static HashMap<String, WandClipboard> copyClipboards = new HashMap<>();
+    public static Map<String, int[]> primaryPositions = new HashMap<>();
+    public static Map<String, int[]> secondaryPositions = new HashMap<>();
+    public static Map<String, WandClipboard> wandClipboards = new HashMap<>();
+    public static Map<String, WandClipboard> copyClipboards = new HashMap<>();
 }

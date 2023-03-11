@@ -4,9 +4,11 @@ import net.minecraft.src.ChunkPosition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WandClipboard {
-    public ArrayList<HashMap<ChunkPosition, int[]>> history = new ArrayList<>();
+    public List<HashMap<ChunkPosition, int[]>> history = new ArrayList<>();
     public int page = -1;
 
     public void createNewPage() {
@@ -20,7 +22,7 @@ public class WandClipboard {
         page += 1;
     }
 
-    public HashMap<ChunkPosition, int[]> getCurrentPage() {
+    public Map<ChunkPosition, int[]> getCurrentPage() {
         return history.get(page);
     }
 

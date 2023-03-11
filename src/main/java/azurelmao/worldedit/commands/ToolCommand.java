@@ -1,13 +1,10 @@
 package azurelmao.worldedit.commands;
 
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.command.Command;
 import net.minecraft.src.command.CommandHandler;
 import net.minecraft.src.command.CommandSender;
 import org.pf4j.Extension;
-
-import java.util.Arrays;
 
 @Extension
 public class ToolCommand implements com.bta.util.CommandHandler {
