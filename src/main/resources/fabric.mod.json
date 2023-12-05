@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "worldedit",
+  "version": "${version}",
+
+  "name": "World Edit",
+  "description": "A port of the ever-classic plugin/mod, World Edit.",
+  "authors": [
+    "Engine Hub (original world edit community)",
+    "Cookie Cakes",
+    "AzureLMAO (original plugin porter)"
+  ],
+  "contributors": [
+    "NebulaBC (line, up, and cut commands)",
+    "Useless (code help)"
+  ],
+  "contact": {
+    "homepage": "https://github.com/FatherCheese/bta-worldedit",
+    "issues": "https://github.com/FatherCheese/bta-worldedit/issues",
+    "sources": "https://github.com/Turnip-Labs/WorldEdit"
+  },
+
+  "license": "GNU-GPL",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "cookie.worldedit.WorldEdit"
+    ]
+  },
+  "mixins": [
+    "worldedit.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3"
+  },
+  "suggests": {
+  }
+}
