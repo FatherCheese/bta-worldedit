@@ -20,34 +20,32 @@ public class CommandPaste extends Command {
 
     @Override
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        WandClipboard copyClipboard = WandPlayerData.copyClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
+        WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
 
-            WandClipboard copyClipboard = WandPlayerData.copyClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
-            WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
-
-            if (copyClipboard.page == -1) {
-                commandSender.sendMessage("Clipboard is empty!");
-                return true;
-            }
-
-            int x = (int) commandSender.getPlayer().x;
-            int y = (int) commandSender.getPlayer().y;
-            int z = (int) commandSender.getPlayer().z;
-
-//            commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x + 3, y, z - 1, Block.stone.id, 0);
-
-            for (Map.Entry<ChunkPosition, int[]> entry : copyClipboard.getCurrentPage().entrySet()) {
-                int[] block = entry.getValue();
-                ChunkPosition position = entry.getKey();
-
-                commandSender.getPlayer().world.setBlockAndMetadataWithNotify(position.x + x + 3, position.y + y, position.z + z - 1, block[0], block[1]);
-            }
-
+        if (copyClipboard.page == -1) {
+            commandSender.sendMessage("Clipboard is empty!");
             return true;
         }
 
+        int x = (int) commandSender.getPlayer().x;
+        int y = (int) commandSender.getPlayer().y;
+        int z = (int) commandSender.getPlayer().z;
 
-        return false;
+        if (copyClipboard.page == -1) {
+            copyClipboard.createNewPage();
+        }
+
+        for (Map.Entry<ChunkPosition, int[]> entry : copyClipboard.getCurrentPage().entrySet()) {
+            int[] block = entry.getValue();
+            ChunkPosition position = entry.getKey();
+
+            commandSender.getPlayer().world.setBlockAndMetadataWithNotify(position.x + x + 5, position.y + y - 1, position.z + z, block[0], block[1]);
+        }
+
+        wandClipboard.createNewPage();
+
+        return true;
     }
 
     @Override

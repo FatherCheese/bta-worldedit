@@ -63,8 +63,7 @@ public class CommandCopy extends Command {
                         int id = world.getBlockId(x, y, z);
                         int meta = world.getBlockMetadata(x, y, z);
 
-//                      copyClipboard.putBlock(x - primaryPosition[0], y - primaryPosition[1], z - primaryPosition[2], id, meta);
-                        copyClipboard.putBlock(x, y, z, id, meta);
+                        copyClipboard.putBlock(x - primaryPos[0], y - primaryPos[1], z - primaryPos[2], id, meta);
                     }
                 }
             }
