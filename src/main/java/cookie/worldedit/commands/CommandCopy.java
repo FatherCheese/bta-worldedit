@@ -5,6 +5,7 @@ import cookie.worldedit.WandPlayerData;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;
 import net.minecraft.core.net.command.CommandSender;
+import net.minecraft.core.world.World;
 
 public class CommandCopy extends Command {
 
@@ -15,63 +16,60 @@ public class CommandCopy extends Command {
     @Override
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            int[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
-            int[] secondPosition = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
+            int[] primaryPos = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
+            int[] secondaryPos = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
 
-            if (primaryPosition == null || secondPosition == null) {
-                commandSender.sendMessage("Positions aren't set!");
+            if (primaryPos == null || secondaryPos == null) {
+                commandSender.getPlayer().addChatMessage("Positions aren't set!");
                 return true;
             }
 
-            int minX = primaryPosition[0];
-            int minY = primaryPosition[1];
-            int minZ = primaryPosition[2];
-            int maxX = secondPosition[0];
-            int maxY = secondPosition[1];
-            int maxZ = secondPosition[2];
+            int minX = primaryPos[0];
+            int minY = primaryPos[1];
+            int minZ = primaryPos[2];
+            int maxX = secondaryPos[0];
+            int maxY = secondaryPos[1];
+            int maxZ = secondaryPos[2];
 
-            int temp;
+            int swap; // If the minimum is greater than the max, set this to the min value and swap them around.
             if (minX > maxX) {
-                temp = minX;
+                swap = minX;
                 minX = maxX;
-                maxX = temp;
+                maxX = swap;
             }
 
             if (minY > maxY) {
-                temp = minY;
+                swap = minY;
                 minY = maxY;
-                maxY = temp;
+                maxY = swap;
             }
 
             if (minZ > maxZ) {
-                temp = minZ;
+                swap = minZ;
                 minZ = maxZ;
-                maxZ = temp;
+                maxZ = swap;
             }
 
             WandClipboard copyClipboard = WandPlayerData.copyClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
 
-            if (copyClipboard.page == -1) {
+            // If the clipboard page is -1, or null, create a new one.
+            if (copyClipboard.page == -1)
                 copyClipboard.createNewPage();
-            }
 
-            copyClipboard.getCurrentPage().clear();
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = minY; y <= maxY; y++) {
+                    for (int z = minZ; z <= maxZ; z++) {
+                        World world = commandSender.getPlayer().world;
+                        int id = world.getBlockId(x, y, z);
+                        int meta = world.getBlockMetadata(x, y, z);
 
-            for(int x = minX; x <= maxX; ++x) {
-                for(int y = minY; y <= maxY; ++y) {
-                    for(int z = minZ; z <= maxZ; ++z) {
-                        int id = commandSender.getPlayer().world.getBlockId(x, y, z);
-                        int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
-
-                        copyClipboard.putBlock(x - primaryPosition[0], y - primaryPosition[1], z - primaryPosition[2], id, meta);
+//                      copyClipboard.putBlock(x - primaryPosition[0], y - primaryPosition[1], z - primaryPosition[2], id, meta);
+                        copyClipboard.putBlock(x, y, z, id, meta);
                     }
                 }
             }
-
             return true;
         }
-
-
         return false;
     }
 

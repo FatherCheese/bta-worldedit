@@ -115,7 +115,9 @@ public class CommandReplace extends Command {
                         int id = commandSender.getPlayer().world.getBlockId(x, y, z);
                         int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
 
-                        if (id1 == id && meta1 == meta) {
+                        // This is a temporary band-aid until we figure out
+                        // what's going on with the original code
+                        if (id != 0) {
                             wandClipboard.putBlock(x, y, z, id2, meta2);
                             commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x, y, z, id2, meta2);
                         }
@@ -138,7 +140,7 @@ public class CommandReplace extends Command {
     @Override
     public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
         commandSender.sendMessage("//replace <block1> <block2>");
-        commandSender.sendMessage("*  <block1> - block to replace");
-        commandSender.sendMessage("*  <block2> - block to place");
+        commandSender.sendMessage("*  <block1> - block to place");
+        commandSender.sendMessage("*  <block2> - block to replace");
     }
 }

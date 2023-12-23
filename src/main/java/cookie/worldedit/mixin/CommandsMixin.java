@@ -17,7 +17,7 @@ public abstract class CommandsMixin {
     @Shadow public static List<Command> commands;
 
     @Inject(method = "initCommands", at = @At("TAIL"))
-    private static void worldedit_initCommands(CallbackInfo ci) {
+    private static void worldEdit_initCommands(CallbackInfo ci) {
         commands.add(new CommandButcher());
         commands.add(new CommandClearClipboard());
         commands.add(new CommandCopy());

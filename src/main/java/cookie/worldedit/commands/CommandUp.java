@@ -23,9 +23,9 @@ public class CommandUp extends Command {
     @Override
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] strings) {
         if (strings.length == 1 && isNumber(strings[0])) {
-            commandSender.getPlayer().world.setBlockWithNotify((int) commandSender.getPlayer().x,
+            commandSender.getPlayer().world.setBlockWithNotify((int) commandSender.getPlayer().x - 1,
                     (int) commandSender.getPlayer().y + Integer.parseInt(strings[0]),
-                    (int) commandSender.getPlayer().z,
+                    (int) commandSender.getPlayer().z - 1,
                     Block.glass.id);
 
             commandSender.getPlayer().setPos(commandSender.getPlayer().x, (int) commandSender.getPlayer().y + Integer.parseInt(strings[0]) + 3, commandSender.getPlayer().z);

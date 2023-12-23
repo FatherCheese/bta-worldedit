@@ -29,7 +29,7 @@ public class CommandButcher extends Command {
                     break;
                 }
                 case "player": {
-                    for (EntityPlayerMP player : MinecraftServer.getInstance().configManager.playerEntities) {
+                    for (EntityPlayerMP player : MinecraftServer.getInstance().playerList.playerEntities) {
                         if (player != commandSender.getPlayer()) {
                             player.killPlayer();
                         }

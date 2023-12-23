@@ -64,7 +64,7 @@ public class CommandCut extends Command {
                         int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
 
                         copyClipboard.putBlock(x - primaryPosition[0], y - primaryPosition[1], z - primaryPosition[2], id, meta);
-                        commandSender.getPlayer().world.setBlock(x, y, z, 0);
+                        commandSender.getPlayer().world.setBlockWithNotify(x, y, z, 0);
                     }
                 }
             }
