@@ -1,4 +1,4 @@
-# Industry2
+# WorldEdit
 A port and fixed up version of WorldEdit for BTA!
 
 ## Prerequisites
