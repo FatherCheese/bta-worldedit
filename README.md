@@ -2,7 +2,7 @@
 A port and fixed up version of WorldEdit for BTA!
 
 ## Prerequisites
-- JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
+- JRE for Java 17 or Java 8 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
 - Babric for BTA 7.1
 
 ## Usage instructions
