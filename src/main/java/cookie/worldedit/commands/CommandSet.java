@@ -52,23 +52,23 @@ public class CommandSet extends Command {
             }
 
             String[] blockName = strings[0].split(":");
-            int meta1 = 0;
+            int origMeta = 0;
             if (blockName.length >= 2) {
-                meta1 = Integer.parseInt(blockName[1]);
+                origMeta = Integer.parseInt(blockName[1]);
             }
 
-            int id1;
+            int origID;
             if (blockName[0].equals("0") || blockName[0].equals("air") || blockName[0].equals("tile.air")) {
-                id1 = 0;
+                origID = 0;
             } else {
-                Block block = Block.getBlock(SetBlockCommand.getBlock(blockName[0], meta1));
+                Block block = Block.getBlock(SetBlockCommand.getBlock(blockName[0], origMeta));
 
                 if (block == null) {
                     commandSender.sendMessage("Block does not exist!");
                     return true;
                 }
 
-                id1 = block.id;
+                origID = block.id;
             }
 
             WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
@@ -77,12 +77,15 @@ public class CommandSet extends Command {
                 wandClipboard.createNewPage();
             }
 
+            int countedBlocks = 0;
+
             for(int x = minX; x <= maxX; ++x) {
                 for(int y = minY; y <= maxY; ++y) {
                     for(int z = minZ; z <= maxZ; ++z) {
                         int id = commandSender.getPlayer().world.getBlockId(x, y, z);
                         int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
                         wandClipboard.putBlock(x, y, z, id, meta);
+                        ++countedBlocks;
                     }
                 }
             }
@@ -92,12 +95,16 @@ public class CommandSet extends Command {
             for(int x = minX; x <= maxX; ++x) {
                 for(int y = minY; y <= maxY; ++y) {
                     for(int z = minZ; z <= maxZ; ++z) {
-                        wandClipboard.putBlock(x, y, z, id1, meta1);
-                        commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x, y, z, id1, meta1);
+                        int id = commandSender.getPlayer().world.getBlockId(x, y, z);
+                        int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
+
+                        wandClipboard.putBlock(x, y, z, origID, origMeta);
+                        commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x, y, z, origID, origMeta);
                     }
                 }
             }
 
+            commandSender.sendMessage("Set " + countedBlocks + " blocks");
             return true;
         }
 

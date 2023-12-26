@@ -21,9 +21,11 @@ public abstract class CommandsMixin {
         commands.add(new CommandButcher());
         commands.add(new CommandClearClipboard());
         commands.add(new CommandCopy());
+        commands.add(new CommandCount());
         commands.add(new CommandCut());
         commands.add(new CommandCylinder());
         commands.add(new CommandCylinderHollow());
+        commands.add(new CommandDrain());
         commands.add(new CommandLine());
         commands.add(new CommandPaste());
         commands.add(new CommandRedo());

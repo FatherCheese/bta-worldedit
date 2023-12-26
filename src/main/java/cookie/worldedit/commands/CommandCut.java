@@ -57,18 +57,22 @@ public class CommandCut extends Command {
 
         copyClipboard.getCurrentPage().clear();
 
+        int countedBlocks = 0;
+
         for (int x = minX; x <= maxX; ++x) {
             for (int y = minY; y <= maxY; ++y) {
                 for (int z = minZ; z <= maxZ; ++z) {
                     int id = commandSender.getPlayer().world.getBlockId(x, y, z);
                     int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
 
+                    ++countedBlocks;
                     copyClipboard.putBlock(x - primaryPosition[0], y - primaryPosition[1], z - primaryPosition[2], id, meta);
                     commandSender.getPlayer().world.setBlockWithNotify(x, y, z, 0);
                 }
             }
         }
         wandClipboard.createNewPage();
+        commandSender.sendMessage("Cut " + countedBlocks + " blocks");
 
         return true;
     }

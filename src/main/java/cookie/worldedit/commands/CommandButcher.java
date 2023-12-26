@@ -19,10 +19,13 @@ public class CommandButcher extends Command {
     @Override
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] strings) {
         if (strings.length == 1) {
+            int countedEntities = 0;
+
             switch (strings[0]) {
                 case "all": {
                     for (Entity entity : commandSender.getPlayer().world.loadedEntityList) {
                         if (entity != commandSender.getPlayer()) {
+                            countedEntities++;
                             entity.remove();
                         }
                     }
@@ -31,6 +34,7 @@ public class CommandButcher extends Command {
                 case "player": {
                     for (EntityPlayerMP player : MinecraftServer.getInstance().playerList.playerEntities) {
                         if (player != commandSender.getPlayer()) {
+                            countedEntities++;
                             player.killPlayer();
                         }
                     }
@@ -39,6 +43,7 @@ public class CommandButcher extends Command {
                 case "hostile": {
                     for (Entity entity : commandSender.getPlayer().world.loadedEntityList) {
                         if (entity instanceof EntityMonster) {
+                            countedEntities++;
                             entity.remove();
                         }
                     }
@@ -47,6 +52,7 @@ public class CommandButcher extends Command {
                 case "passive": {
                     for (Entity entity : commandSender.getPlayer().world.loadedEntityList) {
                         if (entity instanceof EntityAnimal) {
+                            countedEntities++;
                             entity.remove();
                         }
                     }
@@ -55,6 +61,7 @@ public class CommandButcher extends Command {
                 case "item": {
                     for (Entity entity : commandSender.getPlayer().world.loadedEntityList) {
                         if (entity instanceof EntityItem) {
+                            countedEntities++;
                             entity.remove();
                         }
                     }
@@ -63,6 +70,7 @@ public class CommandButcher extends Command {
                 default: break;
             }
 
+            commandSender.sendMessage("Butchered " + countedEntities + " entities");
             return true;
         }
 

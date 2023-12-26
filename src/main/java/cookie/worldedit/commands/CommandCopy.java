@@ -56,6 +56,8 @@ public class CommandCopy extends Command {
             if (copyClipboard.page == -1)
                 copyClipboard.createNewPage();
 
+            int countedBlocks = 0;
+
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
@@ -63,10 +65,12 @@ public class CommandCopy extends Command {
                         int id = world.getBlockId(x, y, z);
                         int meta = world.getBlockMetadata(x, y, z);
 
+                        ++countedBlocks;
                         copyClipboard.putBlock(x - primaryPos[0], y - primaryPos[1], z - primaryPos[2], id, meta);
                     }
                 }
             }
+            commandSender.sendMessage("Copied " + countedBlocks + " blocks");
             return true;
         }
         return false;

@@ -10,6 +10,6 @@ public class WorldEdit implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("World Edit has been initialized.");
+        LOGGER.info("WorldEdit has been initialized.");
     }
 }
