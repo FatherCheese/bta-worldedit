@@ -35,6 +35,21 @@ public class CommandUndo extends Command {
             commandSender.getPlayer().world.setBlockAndMetadataWithNotify(chunkPosition.x, chunkPosition.y, chunkPosition.z, block[0], block[1]);
         }
 
+        if (strings.length == 1) {
+            int times = Integer.parseInt(String.valueOf(strings.length));
+
+            if (times >= wandClipboard.page) {
+                for (int undoCount = 0; undoCount < times; undoCount++) {
+                    for (Map.Entry<ChunkPosition, int[]> entry : wandClipboard.getCurrentPage().entrySet()) {
+                        ChunkPosition chunkPosition = entry.getKey();
+                        int[] block = entry.getValue();
+                        commandSender.getPlayer().world.setBlockAndMetadataWithNotify(chunkPosition.x, chunkPosition.y, chunkPosition.z, block[0], block[1]);
+                    }
+                }
+                return true;
+            }
+        }
+
         return true;
     }
 

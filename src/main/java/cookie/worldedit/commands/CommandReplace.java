@@ -62,8 +62,9 @@ public class CommandReplace extends Command {
 
         // Replace all blocks.
         if (strings.length == 1) {
-            String[] blockName = strings[0].split(":");
+            String[] blockName = strings[0].split(":", 2);
             int origMeta = 0;
+
             if (blockName.length >= 2) {
                 origMeta = Integer.parseInt(blockName[1]);
             }
@@ -72,7 +73,7 @@ public class CommandReplace extends Command {
             if (blockName[0].equals("0") || blockName[0].equals("air") || blockName[0].equals("tile.air")) {
                 origID = 0;
             } else {
-                Block block = Block.getBlock(SetBlockCommand.getBlock(blockName[0], origMeta));
+                Block block = Block.getBlock(SetBlockCommand.getBlock(blockName[0], 0));
 
                 if (block == null) {
                     commandSender.sendMessage("Block does not exist!");
@@ -105,21 +106,23 @@ public class CommandReplace extends Command {
         // Replace specified blocks only.
         if (strings.length == 2) {
             String[] priBlockID = strings[0].split(":");
+            String[] secBlockID = strings[1].split(":");
             int priMeta = 0;
+            int secMeta = 0;
+
             if (priBlockID.length >= 2) {
                 priMeta = Integer.parseInt(priBlockID[1]);
             }
-            String[] secBlockID = strings[1].split(":");
-            int secMeta = 0;
-            if (priBlockID.length >= 2) {
-                secMeta = Integer.parseInt(priBlockID[1]);
+
+            if (secBlockID.length >= 2) {
+                secMeta = Integer.parseInt(secBlockID[1]);
             }
 
             int origID;
             if (priBlockID[0].equals("0") || priBlockID[0].equals("air") || priBlockID[0].equals("tile.air")) {
                 origID = 0;
             } else {
-                Block block = Block.getBlock(SetBlockCommand.getBlock(priBlockID[0], priMeta));
+                Block block = Block.getBlock(SetBlockCommand.getBlock(priBlockID[0], 0));
 
                 if (block == null) {
                     commandSender.sendMessage("Block does not exist!");
