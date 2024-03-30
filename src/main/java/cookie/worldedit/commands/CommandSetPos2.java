@@ -13,9 +13,9 @@ public class CommandSetPos2 extends Command {
 
     @Override
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] strings) {
-        int[] hitPosition = {(int) commandSender.getPlayer().x, ((int) commandSender.getPlayer().y - 1), (int) commandSender.getPlayer().z};
+        int[] hitPosition = {(int) Math.floor(commandSender.getPlayer().x), ((int) commandSender.getPlayer().y - 1), (int) Math.floor(commandSender.getPlayer().z)};
         WandPlayerData.secondaryPositions.put(commandSender.getPlayer().username, hitPosition);
-        commandSender.sendMessage("Set secondary position at " + commandSender.getPlayer().x + ", " + (commandSender.getPlayer().y - 1) + ", " + commandSender.getPlayer().z);
+        commandSender.sendMessage("Set secondary position at " + hitPosition[0] + ", " + hitPosition[1] + ", " + hitPosition[2]);
         return true;
     }
 
