@@ -21,10 +21,10 @@ public abstract class ItemMixin {
                 int[] hitPosition = {blockX, blockY, blockZ};
                 if (!entityplayer.isSneaking()) {
                     WandPlayerData.primaryPositions.put(entityplayer.username, hitPosition);
-                    entityplayer.addChatMessage("Set primary position at " + blockX + ", " + blockY + ", " + blockZ);
+                    entityplayer.sendMessage("Set primary position at " + blockX + ", " + blockY + ", " + blockZ);
                 } else if (entityplayer.isSneaking()) {
                     WandPlayerData.secondaryPositions.put(entityplayer.username, hitPosition);
-                    entityplayer.addChatMessage("Set secondary position at " + blockX + ", " + blockY + ", " + blockZ);
+                    entityplayer.sendMessage("Set secondary position at " + blockX + ", " + blockY + ", " + blockZ);
                 }
             }
         }

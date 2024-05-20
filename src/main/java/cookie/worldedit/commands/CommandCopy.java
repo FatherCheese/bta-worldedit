@@ -20,7 +20,7 @@ public class CommandCopy extends Command {
             int[] secondaryPos = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
 
             if (primaryPos == null || secondaryPos == null) {
-                commandSender.getPlayer().addChatMessage("Positions aren't set!");
+                commandSender.getPlayer().sendMessage("Positions aren't set!");
                 return true;
             }
 
