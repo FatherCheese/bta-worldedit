@@ -3,7 +3,7 @@ A port and fixed up version of WorldEdit for BTA!
 
 ## Prerequisites
 - JRE for Java 17 or Java 8 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
-- Babric for BTA 7.1
+- Babric for BTA 7.2-pre1
 
 ## Usage instructions
 1. If in singleplayer with cheats enabled, or in Multiplayer and have op, type //wand, or //setpos1 and //setpos2.

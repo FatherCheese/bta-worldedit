@@ -34,7 +34,8 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.13.3"
+    "minecraft": "^7.2-beta",
+    "fabricloader": ">=0.15.5"
   },
   "suggests": {
   }
