@@ -1,4 +1,4 @@
-package cookie.worldedit.commands;
+package cookie.worldedit.core.commands;
 
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;

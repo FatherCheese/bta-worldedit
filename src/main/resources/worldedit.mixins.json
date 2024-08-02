@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "cookie.worldedit.mixin",
+  "package": "cookie.worldedit.extra.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CommandsMixin",

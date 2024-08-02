@@ -1,6 +1,6 @@
-package cookie.worldedit.commands;
+package cookie.worldedit.core.commands;
 
-import cookie.worldedit.WandPlayerData;
+import cookie.worldedit.extra.WandPlayerData;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;

@@ -1,21 +1,22 @@
-package cookie.worldedit.commands;
+package cookie.worldedit.core.commands;
 
-import cookie.worldedit.WandClipboard;
-import cookie.worldedit.WandPlayerData;
+import cookie.worldedit.extra.WandClipboard;
+import cookie.worldedit.extra.WandPlayerData;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;
 import net.minecraft.core.net.command.CommandSender;
 import net.minecraft.core.net.command.commands.SetBlockCommand;
 
-public class CommandSetHollow extends Command {
-    public CommandSetHollow() {
-        super("/hollowset", "/hset");
+public class CommandSet extends Command {
+
+    public CommandSet() {
+        super("/set", "");
     }
 
     @Override
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] strings) {
-        if (strings.length == 2) {
+        if (strings.length == 1) {
             int[] primaryPosition = WandPlayerData.primaryPositions.get(commandSender.getPlayer().username);
             int[] secondPosition = WandPlayerData.secondaryPositions.get(commandSender.getPlayer().username);
 
@@ -51,26 +52,24 @@ public class CommandSetHollow extends Command {
             }
 
             String[] blockName = strings[0].split(":");
-            int meta1 = 0;
+            int origMeta = 0;
             if (blockName.length >= 2) {
-                meta1 = Integer.parseInt(blockName[1]);
+                origMeta = Integer.parseInt(blockName[1]);
             }
 
-            int id1;
+            int origID;
             if (blockName[0].equals("0") || blockName[0].equals("air") || blockName[0].equals("tile.air")) {
-                id1 = 0;
+                origID = 0;
             } else {
-                Block block = Block.getBlock(SetBlockCommand.getBlock(blockName[0], meta1));
+                Block block = Block.getBlock(SetBlockCommand.getBlock(blockName[0], origMeta));
 
                 if (block == null) {
                     commandSender.sendMessage("Block does not exist!");
                     return true;
                 }
 
-                id1 = block.id;
+                origID = block.id;
             }
-
-            boolean overwrite = Boolean.parseBoolean(strings[1]);
 
             WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
 
@@ -78,18 +77,15 @@ public class CommandSetHollow extends Command {
                 wandClipboard.createNewPage();
             }
 
+            int countedBlocks = 0;
+
             for(int x = minX; x <= maxX; ++x) {
                 for(int y = minY; y <= maxY; ++y) {
                     for(int z = minZ; z <= maxZ; ++z) {
-                        if (x == minX || x == maxX || y == minY || y == maxY || z == minZ || z == maxZ) {
-                            int id = commandSender.getPlayer().world.getBlockId(x, y, z);
-                            int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
-                            wandClipboard.putBlock(x, y, z, id, meta);
-                        } else if (overwrite) {
-                            int id = commandSender.getPlayer().world.getBlockId(x, y, z);
-                            int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
-                            wandClipboard.putBlock(x, y, z, id, meta);
-                        }
+                        int id = commandSender.getPlayer().world.getBlockId(x, y, z);
+                        int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
+                        wandClipboard.putBlock(x, y, z, id, meta);
+                        ++countedBlocks;
                     }
                 }
             }
@@ -99,17 +95,16 @@ public class CommandSetHollow extends Command {
             for(int x = minX; x <= maxX; ++x) {
                 for(int y = minY; y <= maxY; ++y) {
                     for(int z = minZ; z <= maxZ; ++z) {
-                        if (x == minX || x == maxX || y == minY || y == maxY || z == minZ || z == maxZ) {
-                            wandClipboard.putBlock(x, y, z, id1, meta1);
-                            commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x, y, z, id1, meta1);
-                        } else if (overwrite) {
-                            wandClipboard.putBlock(x, y, z, 0, 0);
-                            commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x, y, z, 0, 0);
-                        }
+                        int id = commandSender.getPlayer().world.getBlockId(x, y, z);
+                        int meta = commandSender.getPlayer().world.getBlockMetadata(x, y, z);
+
+                        wandClipboard.putBlock(x, y, z, origID, origMeta);
+                        commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x, y, z, origID, origMeta);
                     }
                 }
             }
 
+            commandSender.sendMessage("Set " + countedBlocks + " blocks");
             return true;
         }
 
@@ -124,8 +119,7 @@ public class CommandSetHollow extends Command {
 
     @Override
     public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
-        commandSender.sendMessage("//hset <block> <overwrite?>");
+        commandSender.sendMessage("//set <block>");
         commandSender.sendMessage("*  <block> - block to place");
-        commandSender.sendMessage("*  <overwrite?> - whether to clear the blocks inside the selection");
     }
 }

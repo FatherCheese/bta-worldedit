@@ -1,4 +1,4 @@
-package cookie.worldedit;
+package cookie.worldedit.extra;
 
 import net.minecraft.core.world.chunk.ChunkPosition;
 

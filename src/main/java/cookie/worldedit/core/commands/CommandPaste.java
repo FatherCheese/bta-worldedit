@@ -1,15 +1,12 @@
-package cookie.worldedit.commands;
+package cookie.worldedit.core.commands;
 
-import cookie.worldedit.WandClipboard;
-import cookie.worldedit.WandPlayerData;
-import net.minecraft.core.block.Block;
-import net.minecraft.core.entity.player.EntityPlayer;
+import cookie.worldedit.extra.WandClipboard;
+import cookie.worldedit.extra.WandPlayerData;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;
 import net.minecraft.core.net.command.CommandSender;
 import net.minecraft.core.world.chunk.ChunkPosition;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CommandPaste extends Command {

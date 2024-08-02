@@ -1,6 +1,6 @@
-package cookie.worldedit.mixin;
+package cookie.worldedit.extra.mixin;
 
-import cookie.worldedit.commands.*;
+import cookie.worldedit.core.commands.*;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.Commands;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,17 +1,17 @@
-package cookie.worldedit.commands;
+package cookie.worldedit.core.commands;
 
-import cookie.worldedit.WandClipboard;
-import cookie.worldedit.WandPlayerData;
+import cookie.worldedit.extra.WandClipboard;
+import cookie.worldedit.extra.WandPlayerData;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;
 import net.minecraft.core.net.command.CommandSender;
 import net.minecraft.core.net.command.commands.SetBlockCommand;
 
-public class CommandCylinder extends Command {
+public class CommandCylinderHollow extends Command {
 
-    public CommandCylinder() {
-        super("/cylinder", "/cyl");
+    public CommandCylinderHollow() {
+        super("/hollowcylinder", "/hcyl");
     }
 
     public boolean isPointInsideCylinder(int x, int z, double radius) {
@@ -69,6 +69,8 @@ public class CommandCylinder extends Command {
                 return false;
             }
 
+            boolean overwrite = Boolean.parseBoolean(strings[3]);
+
             WandClipboard wandClipboard = WandPlayerData.wandClipboards.computeIfAbsent(commandSender.getPlayer().username, k -> new WandClipboard());
 
             if (wandClipboard.page == -1) {
@@ -79,9 +81,26 @@ public class CommandCylinder extends Command {
                 for(int y = 0; y < blockHeight; ++y) {
                     for(int z = -blockRadius; z <= blockRadius; ++z) {
                         if (isPointInsideCylinder(x, z, radius)) {
-                            int id = commandSender.getPlayer().world.getBlockId(x+originX, y+originY, z+originZ);
-                            int meta = commandSender.getPlayer().world.getBlockMetadata(x+originX, y+originY, z+originZ);
-                            wandClipboard.putBlock(x+originX, y+originY, z+originZ, id, meta);
+                            boolean isExposed = !isPointInsideCylinder(x + 1, z, radius);
+                            if (!isExposed && !isPointInsideCylinder(x-1, z, radius)) {
+                                isExposed = true;
+                            }
+                            if (!isExposed && !isPointInsideCylinder(x, z+1, radius)) {
+                                isExposed = true;
+                            }
+                            if (!isExposed && !isPointInsideCylinder(x, z-1, radius)) {
+                                isExposed = true;
+                            }
+
+                            if (isExposed) {
+                                int id = commandSender.getPlayer().world.getBlockId(x+originX, y+originY, z+originZ);
+                                int meta = commandSender.getPlayer().world.getBlockMetadata(x+originX, y+originY, z+originZ);
+                                wandClipboard.putBlock(x+originX, y+originY, z+originZ, id, meta);
+                            } else if (overwrite) {
+                                int id = commandSender.getPlayer().world.getBlockId(x+originX, y+originY, z+originZ);
+                                int meta = commandSender.getPlayer().world.getBlockMetadata(x+originX, y+originY, z+originZ);
+                                wandClipboard.putBlock(x+originX, y+originY, z+originZ, id, meta);
+                            }
                         }
                     }
                 }
@@ -93,8 +112,24 @@ public class CommandCylinder extends Command {
                 for(int y = 0; y < blockHeight; ++y) {
                     for(int z = -blockRadius; z <= blockRadius; ++z) {
                         if (isPointInsideCylinder(x, z, radius)) {
-                            wandClipboard.putBlock(x+originX, y+originY, z+originZ, id1, meta1);
-                            commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x+originX, y+originY, z+originZ, id1, meta1);
+                            boolean isExposed = !isPointInsideCylinder(x + 1, z, radius);
+                            if (!isExposed && !isPointInsideCylinder(x-1, z, radius)) {
+                                isExposed = true;
+                            }
+                            if (!isExposed && !isPointInsideCylinder(x, z+1, radius)) {
+                                isExposed = true;
+                            }
+                            if (!isExposed && !isPointInsideCylinder(x, z-1, radius)) {
+                                isExposed = true;
+                            }
+
+                            if (isExposed) {
+                                wandClipboard.putBlock(x+originX, y+originY, z+originZ, id1, meta1);
+                                commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x+originX, y+originY, z+originZ, id1, meta1);
+                            } else if (overwrite) {
+                                wandClipboard.putBlock(x+originX, y+originY, z+originZ, 0, 0);
+                                commandSender.getPlayer().world.setBlockAndMetadataWithNotify(x+originX, y+originY, z+originZ, 0, 0);
+                            }
                         }
                     }
                 }
@@ -113,10 +148,10 @@ public class CommandCylinder extends Command {
 
     @Override
     public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
-        commandSender.sendMessage("//cylinder <block> <radius> <height> <raised?>");
+        commandSender.sendMessage("//hcyl <block> <radius> <height> <overwrite?>");
         commandSender.sendMessage("*  <block> - block to place");
         commandSender.sendMessage("*  <radius> - cylinder radius");
         commandSender.sendMessage("*  <height> - cylinder height");
-        commandSender.sendMessage("*  <raised?> - whether to shift the cylinder up");
+        commandSender.sendMessage("*  <overwrite?> - whether to clear the blocks inside the cylinder");
     }
 }

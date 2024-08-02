@@ -1,8 +1,7 @@
-package cookie.worldedit.commands;
+package cookie.worldedit.core.commands;
 
-import cookie.worldedit.WandClipboard;
-import cookie.worldedit.WandPlayerData;
-import net.minecraft.core.block.Block;
+import cookie.worldedit.extra.WandClipboard;
+import cookie.worldedit.extra.WandPlayerData;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.net.command.Command;
