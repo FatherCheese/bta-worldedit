@@ -1,0 +1,13 @@
+command.argument_types.block.invalid_id=Invalid block numerical ID
+
+command.commands.wand.exception_failure=Could not create wand
+
+command.commands.set.exception_failure_pos=Primary or Secondary positions are not set
+command.commands.set.exception_failure_block=Could not set %s
+command.commands.set.success=§lSet §0%d blocks
+
+command.commands.set.exception_failure_previous_page=Nothing left to undo
+command.commands.undo.success=§lUndid §0%d
+
+command.commands.set.exception_failure_previous_page=Nothing left to redo
+command.commands.redo.success=§lRedid §0%d

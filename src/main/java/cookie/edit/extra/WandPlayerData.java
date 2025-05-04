@@ -1,4 +1,4 @@
-package cookie.worldedit.extra;
+package cookie.edit.extra;
 
 import java.util.HashMap;
 import java.util.Map;

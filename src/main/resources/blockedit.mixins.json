@@ -1,11 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "cookie.worldedit.extra.mixin",
+  "package": "cookie.edit.extra.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CommandsMixin",
-    "ItemMixin"
+    "ItemMixin",
+    "ItemToolAxeMixin",
+    "PlayerMixin"
   ],
   "client": [
   ],

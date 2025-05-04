@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "worldedit",
+  "id": "blockedit",
   "version": "${version}",
 
   "name": "World Edit",
@@ -26,15 +26,21 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "cookie.worldedit.WorldEdit"
+      "cookie.edit.BlockEdit"
+    ],
+    "beforeGameStart": [
+      "cookie.edit.BlockEdit"
+    ],
+    "afterGameStart": [
+      "cookie.edit.BlockEdit"
     ]
   },
   "mixins": [
-    "worldedit.mixins.json"
+    "blockedit.mixins.json"
   ],
 
   "depends": {
-    "minecraft": "^7.2-beta",
+    "minecraft": "^7.3",
     "fabricloader": ">=0.15.5"
   },
   "suggests": {
