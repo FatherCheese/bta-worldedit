@@ -118,7 +118,7 @@ public class CommandSet implements CommandManager.CommandRegistry {
                         }
                     }
 
-                    if (Blocks.blocksList[selectedEntry.getBlockId()] == null) {
+                    if (selectedEntry.getBlockId() != 0 && Blocks.blocksList[selectedEntry.getBlockId()] == null) {
                         throw FAILURE_BLOCK.create();
                     }
 

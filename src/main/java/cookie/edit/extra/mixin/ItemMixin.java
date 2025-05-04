@@ -17,6 +17,10 @@ public abstract class ItemMixin {
 
     @Inject(method = "onUseItem", at = @At("TAIL"))
     private void blockEdit_rcWand(ItemStack stack, World world, Player player, CallbackInfoReturnable<ItemStack> cir) {
+        if (world.isClientSide) {
+            return;
+        }
+
         if (stack == null) {
             return;
         }

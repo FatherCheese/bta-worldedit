@@ -1,7 +1,6 @@
 package cookie.edit.extra.mixin;
 
 import cookie.edit.extra.WandPlayerData;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Mob;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
@@ -14,7 +13,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Player.class, remap = false)
 public abstract class PlayerMixin extends Mob {
@@ -31,8 +29,14 @@ public abstract class PlayerMixin extends Mob {
 
     @Shadow public abstract Gamemode getGamemode();
 
-    @Inject(method = "swingItem", at = @At("TAIL"))
+    @Shadow public int swingProgressInt;
+
+    @Inject(method = "tick", at = @At("TAIL"))
     private void blockEdit_lcWand(CallbackInfo ci) {
+        if (world == null || world.isClientSide) {
+            return;
+        }
+
         ItemStack stack = getHeldItem();
         if (stack == null) {
             return;
@@ -42,16 +46,18 @@ public abstract class PlayerMixin extends Mob {
             return;
         }
 
-        if (stack.getData().containsKey("Wand")) {
-            HitResult rayTraceResult = rayTrace(63, 1.0F, false, false);
-            if (rayTraceResult != null && rayTraceResult.hitType == HitResult.HitType.TILE) {
-                int x = rayTraceResult.x;
-                int y = rayTraceResult.y;
-                int z = rayTraceResult.z;
+        if (swingProgressInt == 1) {
+            if (stack.getData().containsKey("Wand")) {
+                HitResult rayTraceResult = rayTrace(63, 1.0F, false, false);
+                if (rayTraceResult != null && rayTraceResult.hitType == HitResult.HitType.TILE) {
+                    int x = rayTraceResult.x;
+                    int y = rayTraceResult.y;
+                    int z = rayTraceResult.z;
 
-                int[] hitPos = new int[]{x, y, z};
-                WandPlayerData.primaryPositions.put(username, hitPos);
-                sendMessage(String.format("§lSet primary positions to§0: §<ff8080>%d §<80ff80>%d §<8080ff>%d", x, y, z));
+                    int[] hitPos = new int[]{x, y, z};
+                    WandPlayerData.primaryPositions.put(username, hitPos);
+                    sendMessage(String.format("§lSet primary positions to§0: §<ff8080>%d §<80ff80>%d §<8080ff>%d", x, y, z));
+                }
             }
         }
     }
